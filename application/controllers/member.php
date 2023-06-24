@@ -47,52 +47,66 @@ class member extends CI_Controller
     public function diagnosa()
     {
         $gejalacf = $this->input->post('kode_gejalacf');
-        $aturan = $this->model_admin->get_AturanSesuai();
         $jumlah_dipilih = count($gejalacf);
-        $jumlah_aturan = count($aturan);
-        $cfBobot = 1; // Menyimpan hasil perkalian bobot pengguna dengan bobot pakar
-        $cfH = 1; // Menyimpan hasil perkalian dari hasil minimal cfBobot dengan cfaturan yang sesuai
 
-        //Mencari Nilai CF Gejala dari perkalian CF Kondisi User dan CF Pakar
-        for ($x = 0; $x < $jumlah_dipilih; $x++) {
-            $kondisi_user = $this->input->post('kode_gejalacf[' . $gejalacf[$x] . ']');
+        // Inisialisasi variabel untuk menyimpan hasil perhitungan CF
+        $x = 1; // Diinisialisasi dengan 1 untuk mendapatkan nilai minimum pada perulangan pertama
+        $y = 1;
+
+        // Mencari Nilai CF Gejala dari perkalian CF Kondisi User dan CF Pakar
+        for ($i = 0; $i < $jumlah_dipilih; $i++) {
+            $kondisi_user = $this->input->post('kode_gejalacf[' . $gejalacf[$i] . ']');
 
             // Dapatkan bobot pengguna berdasarkan kondisi dari database
             $bobot_user = $this->model_admin->get_kondisi_user($kondisi_user);
 
             // Dapatkan bobot pakar dari model_admin
-            $bobot_pakar = $this->model_admin->get_bobot_pakar($gejalacf[$x]);
+            $bobot_pakar = $this->model_admin->get_bobot_pakar($gejalacf[$i]);
 
             // Lakukan perkalian bobot pengguna dengan bobot pakar
-            $cfBobot *= ($bobot_user * $bobot_pakar);
+            $cfBobot = $bobot_user * $bobot_pakar;
+
+            // Cari nilai minimum dari cfBobot
+            $nilai_min = min($nilai_min, $cfBobot);
         }
 
-        //Mencari Kombinasi Evidence Antecendent yang bernilai paling kecil/minimum dan mengalikannya dengan CF Aturan yang sesuai
-        $nilai_min = INF; // Inisialisasi dengan nilai tak terhingga
-        for ($x = 0; $x < $jumlah_aturan; $x++) {
-            $cfaturan = $this->model_admin->get_cfaturan($aturan[$x]['id']);
-            $nilai_min = min($cfBobot, $nilai_min);
-            $cfH *= $nilai_min * $cfaturan;
+        // Perulangan untuk melakukan perkalian nilai minimum dengan CF aturan yang sesuai
+        $aturan_cf = array(); // Array untuk menyimpan nilai CF aturan
+        for ($i = 0; $i < $jumlah_dipilih; $i++) {
+            $id = $gejalacf[$i];
+            $cfAturan = $this->model_admin->get_cfaturan($id); // Ganti $id_aturan dengan nilai id aturan yang sesuai
+
+            // Kalikan nilai minimum dengan CF aturan
+            $nilai_min_cfAturan = $nilai_min * $cfAturan;
+
+            // Simpan nilai CF aturan dalam array
+            $aturan_cf[] = $nilai_min_cfAturan;
         }
 
-        // Tentukan rumus perhitungan berdasarkan nilai CF dan rule
-        $x = $cfH; // Gunakan hasil perhitungan sebelumnya sebagai nilai x
-        $y = $cfH; // Gunakan hasil perhitungan sebelumnya sebagai nilai y
+        if ($i == 0) {
+            $x = $aturan_cf[$i];
+        } else {
+            $y = $aturan_cf[$i];
+        }
+
+        // Mencari kombinasi Evidence Antecedent yang bernilai paling kecil/minimum dan mengalikannya dengan CF Aturan yang sesuai
 
         if ($x >= 0 && $y >= 0) {
             // Gunakan rumus pertama: x + y - x * y
             $hasil_cf = $x + $y - ($x * $y);
         } elseif ($x < 0 && $y < 0) {
-            // Gunakan rumus ketiga: x + y + x * y
+            // Gunakan rumus kedua: x + y + x * y
             $hasil_cf = $x + $y + ($x * $y);
         } else {
-            // Gunakan rumus kedua: x + y / (1 - nilai min dari |x|, |y|)
+            // Gunakan rumus ketiga: x + y / (1 - nilai min dari |x|, |y|)
             $min_abs = min(abs($x), abs($y));
             $hasil_cf = $x + $y / (1 - $min_abs);
         }
 
         // Konversi nilai CF ke persen
-        $data['hasil_cf_persen'] = $hasil_cf * 100;
+        $hasil_cf_persen = $hasil_cf * 100;
+
+        $data['hasil_cf_persen'] = $hasil_cf_persen;
 
         $this->load->view('premium/header_member');
         $this->load->view('premium/diagnosacf', $data);

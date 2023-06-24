@@ -56,7 +56,8 @@ class authmember extends CI_Controller
 				} elseif ($status_aktif == 'Y' && $premium == 'N') {
 					$data_login = array(
 						'is_login' => true,
-						'id_member' => $db->id_member
+						'id_member' => $db->id_member,
+						'premium' => 'N'
 					);
 					$this->session->set_userdata($data_login);
 					redirect('member');
@@ -66,7 +67,8 @@ class authmember extends CI_Controller
 				} elseif ($status_aktif == 'Y' && $premium == 'Y') {
 					$data_login = array(
 						'is_login' => true,
-						'id_member' => $db->id_member
+						'id_member' => $db->id_member,
+						'premium' => 'Y'
 					);
 					$this->session->set_userdata($data_login);
 					redirect('member');

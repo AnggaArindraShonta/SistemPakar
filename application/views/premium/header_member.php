@@ -67,7 +67,7 @@
           </div>
         </div>
       </nav>
-    <?php elseif ($this->session->userdata('premium') == 'N') : ?>
+    <?php elseif ($this->session->userdata('is_login') && $this->session->userdata('premium') == 'N') : ?>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 bg-light opacity-85" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container">
           <a class="navbar-brand" href="index.html">
@@ -80,7 +80,6 @@
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="<?php echo base_url('member/') ?>">Beranda</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/data_penyakitcf') ?>">Data Penyakit Padi</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('user/data_penyakit') ?>">Data Penyakit Padi</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Kesempatan">Kesempatan</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Cara Kerja">Cara Kerja</a></li>
@@ -89,12 +88,11 @@
           </div>
           <div class="btn-container">
             <a class="btn btn-m btn-dark bg-gradient" href="<?php echo base_url('user/konsultasi'); ?>" role="button">Konsultasi</a>
-            <a class="btn btn-m btn-dark bg-gradient" href="<?php echo base_url('member/konsultasicf'); ?>" role="button">Konsultasi</a>
             <a class="btn btn-m btn-danger" href="<?php echo base_url('authmember/logout'); ?>" role="button">Logout</a>
           </div>
         </div>
       </nav>
-    <?php elseif ($this->session->userdata('premium') == 'Y') : ?>
+    <?php elseif ($this->session->userdata('is_login') && $this->session->userdata('premium') == 'Y') : ?>
       <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3 bg-light opacity-85" data-navbar-on-scroll="data-navbar-on-scroll">
         <div class="container">
           <a class="navbar-brand" href="index.html">
@@ -107,7 +105,6 @@
           <div class="collapse navbar-collapse border-top border-lg-0 mt-4 mt-lg-0" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item px-2"><a class="nav-link fw-medium active" aria-current="page" href="<?php echo base_url('member/') ?>">Beranda</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/data_penyakitcf') ?>">Data Penyakit Padi</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/data_penyakitcf') ?>">Data Penyakit Padi</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Kesempatan">Kesempatan</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Cara Kerja">Cara Kerja</a></li>
