@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 21 Jun 2023 pada 16.27
+-- Waktu pembuatan: 24 Jun 2023 pada 16.05
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.3.29
 
@@ -250,15 +250,19 @@ CREATE TABLE `member` (
   `id_member` int(11) NOT NULL,
   `username` varchar(30) NOT NULL,
   `password` varchar(30) NOT NULL,
-  `nama_admin` varchar(30) NOT NULL
+  `email` varchar(50) NOT NULL,
+  `status_aktif` enum('Y','N') NOT NULL,
+  `premium` enum('Y','N') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `member`
 --
 
-INSERT INTO `member` (`id_member`, `username`, `password`, `nama_admin`) VALUES
-(1, 'angga', '1234', 'Angga');
+INSERT INTO `member` (`id_member`, `username`, `password`, `email`, `status_aktif`, `premium`) VALUES
+(1, 'angga', '1234', 'angga@gmail.com', 'Y', 'Y'),
+(3, 'aku', '1234', 'angga@amikom.ac.id', 'Y', 'N'),
+(5, 'dia', '1234', 'dia@gmail.com', 'N', 'N');
 
 -- --------------------------------------------------------
 
@@ -400,7 +404,7 @@ ALTER TABLE `kondisi`
 -- AUTO_INCREMENT untuk tabel `member`
 --
 ALTER TABLE `member`
-  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_member` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
