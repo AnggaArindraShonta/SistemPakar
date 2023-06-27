@@ -46,71 +46,66 @@ class member extends CI_Controller
 
     public function diagnosa()
     {
-        $gejalacf = $this->input->post('kode_gejalacf');
-        $jumlah_dipilih = count($gejalacf);
+        $gejalacf = $this->input->post('kondisi');
+        $nilai_min = null;
+        $x = null;
+        $y = null;
+        $bobot_user = array();
+        $cfEe = array();
+        $cfHe = array();
 
-        // Inisialisasi variabel untuk menyimpan hasil perhitungan CF
-        $x = 1; // Diinisialisasi dengan 1 untuk mendapatkan nilai minimum pada perulangan pertama
-        $y = 1;
-
-        // Mencari Nilai CF Gejala dari perkalian CF Kondisi User dan CF Pakar
-        for ($i = 0; $i < $jumlah_dipilih; $i++) {
-            $kondisi_user = $this->input->post('kode_gejalacf[' . $gejalacf[$i] . ']');
-
-            // Dapatkan bobot pengguna berdasarkan kondisi dari database
-            $bobot_user = $this->model_admin->get_kondisi_user($kondisi_user);
-
-            // Dapatkan bobot pakar dari model_admin
-            $bobot_pakar = $this->model_admin->get_bobot_pakar($gejalacf[$i]);
-
-            // Lakukan perkalian bobot pengguna dengan bobot pakar
-            $cfBobot = $bobot_user * $bobot_pakar;
-
-            // Cari nilai minimum dari cfBobot
-            $nilai_min = min($nilai_min, $cfBobot);
+        foreach ($gejalacf as $kodeGejala => $nilaiKondisi) {
+            if (!empty($nilaiKondisi)) {
+                // CF Gejala
+                $bobot_user[] = $nilaiKondisi;
+                $bobot_pakar = $this->model_admin->get_bobot_pakar($kodeGejala);
+                $hipotesisGejala = $this->model_admin->get_hipotesis_gejala($kodeGejala);
+                $cfBobot = floatval($nilaiKondisi) * floatval($bobot_pakar);
+                $cfEe[$kodeGejala]['kode_gejalacf'] = $kodeGejala;
+                $cfEe[$kodeGejala]['gejalacf'] = $hipotesisGejala;
+                $cfEe[$kodeGejala]['bobot_user'] = $nilaiKondisi;
+                $cfEe[$kodeGejala]['bobot_pakar'] = $bobot_pakar;
+                $cfEe[$kodeGejala]['cfbobot'] = $cfBobot;
+                // CF Kombinasi Evidence Antecedent
+                if ($nilai_min === null) {
+                    $nilai_min = $cfBobot;
+                } else {
+                    $nilai_min = min($nilai_min, $cfBobot);
+                }
+                $cfAturan = $this->model_admin->get_cfaturan($kodeGejala);
+                $cfHipotesis = floatval($nilai_min) * floatval($cfAturan);
+                $cfHipotesis = $cfHipotesis * 100;
+                $cfHe[$kodeGejala]['gejalacf'] = $kodeGejala;
+                $cfHe[$kodeGejala]['nilai_min'] = $nilai_min;
+                $cfHe[$kodeGejala]['cfaturan'] = $cfAturan;
+                $cfHe[$kodeGejala]['cfhipotesis'] = $cfHipotesis;
+                //Hipotesis Penyakit
+                $hipotesisPenyakit = $this->model_admin->get_hipotesis_penyakit($kodeGejala);
+                $kodePenyakit = $this->model_admin->get_penyakitcfaturan($kodeGejala);
+                $Hipotesis[$kodeGejala]['kode_penyakitcf'] = $kodePenyakit;
+                $Hipotesis[$kodeGejala]['penyakitcf'] = $hipotesisPenyakit;
+                $Hipotesis[$kodeGejala]['cf_persen'] = $cfHipotesis;
+            }
         }
-
-        // Perulangan untuk melakukan perkalian nilai minimum dengan CF aturan yang sesuai
-        $aturan_cf = array(); // Array untuk menyimpan nilai CF aturan
-        for ($i = 0; $i < $jumlah_dipilih; $i++) {
-            $id = $gejalacf[$i];
-            $cfAturan = $this->model_admin->get_cfaturan($id); // Ganti $id_aturan dengan nilai id aturan yang sesuai
-
-            // Kalikan nilai minimum dengan CF aturan
-            $nilai_min_cfAturan = $nilai_min * $cfAturan;
-
-            // Simpan nilai CF aturan dalam array
-            $aturan_cf[] = $nilai_min_cfAturan;
-        }
-
-        if ($i == 0) {
-            $x = $aturan_cf[$i];
-        } else {
-            $y = $aturan_cf[$i];
-        }
-
-        // Mencari kombinasi Evidence Antecedent yang bernilai paling kecil/minimum dan mengalikannya dengan CF Aturan yang sesuai
-
-        if ($x >= 0 && $y >= 0) {
-            // Gunakan rumus pertama: x + y - x * y
-            $hasil_cf = $x + $y - ($x * $y);
-        } elseif ($x < 0 && $y < 0) {
-            // Gunakan rumus kedua: x + y + x * y
-            $hasil_cf = $x + $y + ($x * $y);
-        } else {
-            // Gunakan rumus ketiga: x + y / (1 - nilai min dari |x|, |y|)
-            $min_abs = min(abs($x), abs($y));
-            $hasil_cf = $x + $y / (1 - $min_abs);
-        }
-
-        // Konversi nilai CF ke persen
-        $hasil_cf_persen = $hasil_cf * 100;
-
-        $data['hasil_cf_persen'] = $hasil_cf_persen;
+        $data['cfEe'] = $cfEe;
+        $data['cfHe'] = $cfHe;
+        $data['Hipotesis'] = $Hipotesis;
 
         $this->load->view('premium/header_member');
         $this->load->view('premium/diagnosacf', $data);
         $this->load->view('premium/footer_member');
+
+        // if ($x >= 0 && $y >= 0) {
+        //     // Gunakan rumus pertama: x + y - x * y
+        //     $hasil_cf = $x + $y - ($x * $y);
+        // } elseif ($x < 0 && $y < 0) {
+        //     // Gunakan rumus kedua: x + y + x * y
+        //     $hasil_cf = $x + $y + ($x * $y);
+        // } else {
+        //     // Gunakan rumus ketiga: x + y / (1 - nilai min dari |x|, |y|)
+        //     $min_abs = min(abs($x), abs($y));
+        //     $hasil_cf = $x + $y / (1 - $min_abs);
+        // }
     }
 
     public function detail_penyakitcf()
@@ -127,6 +122,23 @@ class member extends CI_Controller
 
         $this->load->view('premium/header_member');
         $this->load->view('premium/detail_penyakitcf', $data);
+        $this->load->view('premium/footer_member');
+    }
+
+    public function detail_hasilpenyakitcf()
+    {
+
+        $kode_penyakitcf = $this->uri->segment('3');
+        $data['$kode_penyakitcf'] = $kode_penyakitcf;
+
+        $penyakitcf = $this->model_admin->get_penyakitcf($kode_penyakitcf)->row();
+        $data['penyakitcf'] = $penyakitcf->penyakitcf;
+        $data['solusicf'] = $penyakitcf->solusicf;
+
+        $data['gejalacf'] = $this->model_admin->get_gejalacf_penyakitcf($kode_penyakitcf)->result_array();
+
+        $this->load->view('premium/header_member');
+        $this->load->view('premium/detail_hasilpenyakitcf', $data);
         $this->load->view('premium/footer_member');
     }
 }

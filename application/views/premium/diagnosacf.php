@@ -1,5 +1,3 @@
-<title>Diagnosa Penyakit</title>
-
 <!-- Main content -->
 <section class="content" style="margin-left: 50px; margin-right: 50px;">
     <div class="row">
@@ -10,7 +8,61 @@
                 </div>
                 <div class="box-body">
                     <div class="table-responsive">
-                        <table id="tabelDiagnosa" class="table table-bordered table-striped" style="width: 100%">
+                        <h4>Perkalian Bobot User dan Bobot Pakar</h4>
+                        <table id="tabelPerkalian" class="table table-bordered table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Kode Gejala</th>
+                                    <th>Gejala</th>
+                                    <th>Bobot User</th>
+                                    <th>Bobot Pakar</th>
+                                    <th>Perkalian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <?php $nomor = 1;
+                                foreach ($cfEe as $no => $data) { ?>
+                                    <tr>
+                                        <td><?= $nomor; ?></td>
+                                        <td><?= $data['kode_gejalacf'] ?></td>
+                                        <td><?= $data['gejalacf'][0] ?></td>
+                                        <td><?= $data['bobot_user'] ?></td>
+                                        <td><?= $data['bobot_pakar'] ?></td>
+                                        <td><?= $data['cfbobot'] ?></td>
+                                    </tr>
+                                <?php $nomor++;
+                                } ?>
+                            </tbody>
+                        </table>
+
+                        <h4>Perkalian Nilai Minimum dengan CF Aturan</h4>
+                        <table id="tabelPerkalianMinimum" class="table table-bordered table-striped" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>Nilai Minimum</th>
+                                    <th>CF Aturan</th>
+                                    <th>Perkalian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $nomor = 1;
+                                foreach ($cfHe as $no => $data) { ?>
+                                    <tr>
+                                        <td><?= $nomor ?></td>
+                                        <td><?= $data['nilai_min'] ?></td>
+                                        <td><?= $data['cfaturan'] ?></td>
+                                        <td><?= $data['cfhipotesis'] ?></td>
+                                    </tr>
+                                <?php $nomor++;
+                                } ?>
+                            </tbody>
+                        </table>
+
+                        <h4>Hasil Diagnosa</h4>
+                        <table id="tabelHasil" class="table table-bordered table-striped" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -21,20 +73,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($penyakitcf as $no => $data) { ?>
+                                <?php $nomor = 1;
+                                foreach ($Hipotesis as $no => $data) { ?>
                                     <tr>
-                                        <td><?= $no + 1 ?></td>
+                                        <td><?= $nomor ?></td>
                                         <td><?= $data['kode_penyakitcf'] ?></td>
-                                        <td><?= $data['penyakitcf'] ?></td>
-                                        <td><?= $data['hasil_cf_persen'] ?>%</td>
+                                        <td><?= $data['penyakitcf'][0] ?></td>
+                                        <td><?= $data['cf_persen'] ?>%</td>
                                         <td>
-                                            <a href="<?= base_url() ?>user/detail_penyakit/<?= $data['kode_penyakit'] ?>" class="fa-hover col-xl-3 col-lg-4 col-md-6 col-12"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                            <a href="<?= base_url() ?>member/detail_hasilpenyakitcf/<?= $data['kode_penyakitcf'] ?>" class="fa-hover col-xl-3 col-lg-4 col-md-6 col-12"><i class="fa fa-search" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
-                                <?php } ?>
+                                <?php $nomor++;
+                                } ?>
                             </tbody>
                         </table>
-                        <a href="<?php echo base_url() ?>user/konsultasi" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span> Konsultasi Lagi</a>
+                        <a href="<?php echo base_url() ?>member/konsultasicf" class="btn btn-primary btn-lg"><span class="fa fa-arrow-left"></span> Konsultasi Lagi</a>
                     </div>
                 </div>
             </div>
@@ -47,6 +101,8 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-        $('#tabelDiagnosa').DataTable();
+        $('#tabelPerkalian').DataTable();
+        $('#tabelPerkalianMinimum').DataTable();
+        $('#tabelHasil').DataTable();
     });
 </script>

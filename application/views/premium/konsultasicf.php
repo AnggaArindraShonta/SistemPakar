@@ -28,14 +28,14 @@
 											<td><?= $data['kode_gejalacf']; ?></td>
 											<td><?= $data['gejalacf']; ?></td>
 											<td>
-												<select id="<?= $data['kode_gejalacf']; ?>" name="kode_gejalacf[<?= $data['kode_gejalacf']; ?>]" onchange="changeColor(this)">
+												<select id="<?= $data['kode_gejalacf']; ?>" name="kondisi[<?= $data['kode_gejalacf']; ?>]" onchange="changeColor(this)">
 													<option value="">Pilih</option>
-													<option value="tidak">Tidak</option>
-													<option value="tidak_tahu">Tidak Tahu</option>
-													<option value="sedikit_yakin">Sedikit Yakin</option>
-													<option value="cukup_yakin">Cukup Yakin</option>
-													<option value="yakin">Yakin</option>
-													<option value="sangat_yakin">Sangat Yakin</option>
+													<option value="0.00">Tidak</option>
+													<option value="0.20">Tidak Tahu</option>
+													<option value="0.40">Sedikit Yakin</option>
+													<option value="0.60">Cukup Yakin</option>
+													<option value="0.80">Yakin</option>
+													<option value="1.00">Sangat Yakin</option>
 												</select>
 											</td>
 										</tr>
@@ -56,23 +56,24 @@
 							function changeColor(select) {
 								var selectedValue = select.value;
 
-								if (selectedValue === "tidak") {
+								if (selectedValue === "0.00") {
 									select.style.backgroundColor = "#FFAE00";
-								} else if (selectedValue === "tidak_tahu") {
+								} else if (selectedValue === "0.20") {
 									select.style.backgroundColor = "#FF9000";
-								} else if (selectedValue === "sedikit_yakin") {
+								} else if (selectedValue === "0.40") {
 									select.style.backgroundColor = "#FF6E00";
-								} else if (selectedValue === "cukup_yakin") {
+								} else if (selectedValue === "0.60") {
 									select.style.backgroundColor = "#FF4800";
-								} else if (selectedValue === "yakin") {
+								} else if (selectedValue === "0.80") {
 									select.style.backgroundColor = "#FF2200";
-								} else if (selectedValue === "sangat_yakin") {
+								} else if (selectedValue === "1.00") {
 									select.style.backgroundColor = "#FF0000";
 								} else {
-									select.style.backgroundColor = ""; // Menghapus latar belakang jika tidak ada pilihan yang dipilih
+									select.style.backgroundColor = "";
 								}
 							}
 						</script>
+
 
 
 					</div>

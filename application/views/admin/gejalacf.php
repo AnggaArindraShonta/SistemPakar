@@ -73,11 +73,17 @@
                                                         <div class="form-group">
                                                             <label for="email">Gejala</label>
                                                             <input type="text" name="gejalacf" class="form-control" id="gejalacf" value="<?= $data['gejalacf']; ?>">
-                                                            <label for="email">Bobot Pakar</label>
-                                                            <input type="text" name="bobot_pakar" class="form-control" id="bobot_pakar" value="<?= $data['bobot_pakar']; ?>">
+                                                            <label for="bobot_pakar">Bobot Pakar</label>
+                                                            <select name="bobot_pakar" class="form-control" id="bobot_pakar" value="<?= $data['bobot_pakar']; ?>">
+                                                                <option value="">Pilih</option>
+                                                                <option value="0.00">0.00</option>
+                                                                <option value="0.20">0.20</option>
+                                                                <option value="0.40">0.40</option>
+                                                                <option value="0.60">0.60</option>
+                                                                <option value="0.80">0.80</option>
+                                                                <option value="1.00">1.00</option>
+                                                            </select>
                                                         </div>
-
-
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -146,7 +152,15 @@
                         <label for="email">Gejala</label>
                         <input type="text" name="gejalacf" class="form-control" id="gejalacf">
                         <label for="email">Bobot Pakar</label>
-                        <input type="text" name="bobot_pakar" class="form-control" id="bobot_pakar">
+                        <select name="bobot_pakar" class="form-control" id="bobot_pakar">
+                            <option value="">Pilih</option>
+                            <option value="0.00">0.00</option>
+                            <option value="0.20">0.20</option>
+                            <option value="0.40">0.40</option>
+                            <option value="0.60">0.60</option>
+                            <option value="0.80">0.80</option>
+                            <option value="1.00">1.00</option>
+                        </select>
                     </div>
 
 

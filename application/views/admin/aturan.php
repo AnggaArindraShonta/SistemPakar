@@ -101,7 +101,15 @@
                                                         </div>
                                                         <div class="form-group">
                                                             <label for="email">Bobot CF Aturan</label>
-                                                            <input type="text" name="cfaturan" class="form-control" id="cfaturan" value="<?= $data['cfaturan']; ?>">
+                                                            <select name="cfaturan" class="form-control" id="cfaturan" value="<?= $data['cfaturan']; ?>">
+                                                                <option value="">Pilih</option>
+                                                                <option value="0.00">0.00</option>
+                                                                <option value="0.20">0.20</option>
+                                                                <option value="0.40">0.40</option>
+                                                                <option value="0.60">0.60</option>
+                                                                <option value="0.80">0.80</option>
+                                                                <option value="1.00">1.00</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
@@ -186,7 +194,15 @@
                     </div>
                     <div class="form-group">
                         <label for="email">Bobot CF Aturan</label>
-                        <input type="text" name="cfaturan" class="form-control" id="cfaturan">
+                        <select name="cfaturan" class="form-control" id="cfaturan">
+                            <option value="">Pilih</option>
+                            <option value="0.00">0.00</option>
+                            <option value="0.20">0.20</option>
+                            <option value="0.40">0.40</option>
+                            <option value="0.60">0.60</option>
+                            <option value="0.80">0.80</option>
+                            <option value="1.00">1.00</option>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">

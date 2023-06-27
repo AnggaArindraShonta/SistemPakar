@@ -56,22 +56,6 @@ class model_admin extends CI_Model
 		return $this->db->get();
 	}
 
-	public function get_bobot_pakar($kode_gejalacf)
-	{
-		$this->db->select('bobot_pakar');
-		$this->db->from('gejalacf');
-		$this->db->where('kode_gejalacf', $kode_gejalacf);
-		$query = $this->db->get();
-
-		if ($query->num_rows() > 0) {
-			$row = $query->row();
-			return $row->bobot_pakar;
-		} else {
-			return null;
-		}
-	}
-
-
 	function get_penyakit($kode_penyakit)
 	{
 
@@ -520,35 +504,84 @@ class model_admin extends CI_Model
 		return $return;
 	}
 
-	public function get_kondisi_user($id)
+	public function get_bobot_pakar($kode_gejalacf)
 	{
-		$this->db->select('bobot_user');
-		$this->db->from('kondisi');
-		$this->db->where('id', $id);
-		$query = $this->db->get();
+		$this->db->select('bobot_pakar');
+		$this->db->where('kode_gejalacf', $kode_gejalacf);
+		$query = $this->db->get('gejalacf');
 
 		if ($query->num_rows() > 0) {
 			$row = $query->row();
-			return $row->kondisi_user;
+			return $row->bobot_pakar;
 		} else {
 			return null;
 		}
 	}
 
-	public function get_cfaturan($id)
+	public function get_cfaturan($kode_gejalacf)
 	{
 		$this->db->select('cfaturan');
-		$this->db->from('aturan');
-		$this->db->where('id', $id);
-		$query = $this->db->get();
+		$this->db->where('kode_gejalacf', $kode_gejalacf);
+		$query = $this->db->get('aturan');
 
 		if ($query->num_rows() > 0) {
 			$row = $query->row();
-			return $row->kondisi_user;
+			return $row->cfaturan;
 		} else {
 			return null;
 		}
 	}
+
+	public function get_penyakitcfaturan($kode_gejalacf)
+	{
+		$this->db->select('kode_penyakitcf');
+		$this->db->where('kode_gejalacf', $kode_gejalacf);
+		$query = $this->db->get('aturan');
+
+		if ($query->num_rows() > 0) {
+			$row = $query->row();
+			return $row->kode_penyakitcf;
+		} else {
+			return null;
+		}
+	}
+
+	public function get_hipotesis_gejala($kode_gejalacf)
+	{
+		$this->db->select('gejalacf.gejalacf');
+		$this->db->join('gejalacf', 'aturan.kode_gejalacf = gejalacf.kode_gejalacf');
+		$this->db->where('aturan.kode_gejalacf', $kode_gejalacf);
+		$query = $this->db->get('aturan');
+
+		if ($query->num_rows() > 0) {
+			$hipotesis = array();
+			foreach ($query->result() as $row) {
+				$hipotesis[] = $row->gejalacf;
+			}
+			return $hipotesis;
+		} else {
+			return null;
+		}
+	}
+
+	public function get_hipotesis_penyakit($kode_gejalacf)
+	{
+		$this->db->select('penyakitcf.kode_penyakitcf, penyakitcf.penyakitcf, penyakitcf.solusicf');
+		$this->db->join('penyakitcf', 'aturan.kode_penyakitcf = penyakitcf.kode_penyakitcf');
+		$this->db->where('aturan.kode_gejalacf', $kode_gejalacf);
+		$query = $this->db->get('aturan');
+
+		if ($query->num_rows() > 0) {
+			$hipotesis = array();
+			foreach ($query->result() as $row) {
+				$hipotesis[] = $row->penyakitcf;
+			}
+			return $hipotesis;
+		} else {
+			return null;
+		}
+	}
+
 
 	function get_by_id($id_member)
 	{
