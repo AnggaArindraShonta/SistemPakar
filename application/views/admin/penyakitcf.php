@@ -34,10 +34,12 @@
                             <thead>
                                 <tr>
                                     <th class="text-center" width="5%">No.</th>
-                                    <th class="text-center" width="15%">Kode</th>
-                                    <th class="text-center" width="15%">Penyakit</th>
-                                    <th class="text-center" width="50%">Solusi</th>
-                                    <th class="text-center" width="20%">Option</th>
+                                    <th class="text-center" width="5%">Kode</th>
+                                    <th class="text-center" width="10%">Penyakit</th>
+                                    <th class="text-center" width="30%">Keterangan</th>
+                                    <th class="text-center" width="20%">Solusi</th>
+                                    <th class="text-center" width="20%">Gambar</th>
+                                    <th class="text-center" width="10%">Option</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -50,7 +52,11 @@
                                         <td class="text-center"><?php echo $no; ?></td>
                                         <td class="text-center"><?= $data['kode_penyakitcf']; ?></td>
                                         <td><?= $data['penyakitcf']; ?></td>
+                                        <td><?= $data['keterangancf']; ?></td>
                                         <td><?= $data['solusicf']; ?></td>
+                                        <td>
+                                            <img src="<?= base_url('assets/uploads/' . $data['gambarcf']); ?>" alt="Image" width="100">
+                                        </td>
                                         <td class="text-center">
                                             <a href="#" class="btn btn-warning" data-toggle="modal" data-target="#edit-<?= $data['kode_penyakitcf']; ?>" title="Edit Penyakit"><span class="fa fa-edit"></span></a>
                                             <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#delete-<?= $data['kode_penyakitcf']; ?>" title="Delete Penyakit"><span class="fa fa-trash"></span></a>
@@ -66,19 +72,32 @@
                                                     <h4 class="modal-title">Edit Penyakit CF</h4>
                                                 </div>
 
-                                                <form action="<?php echo base_url() ?>admin/edit_penyakitcf" method="POST">
+                                                <form action="<?php echo base_url() ?>admin/edit_penyakitcf" method="POST" enctype="multipart/form-data">
                                                     <input type="hidden" name="kode_penyakitcf" value="<?= $data['kode_penyakitcf']; ?>">
                                                     <div class="modal-body">
 
                                                         <div class="form-group">
                                                             <label for="email">Penyakit</label>
-                                                            <input type="text" name="penyakitcf" class="form-control" id="email" value="<?= $data['penyakitcf']; ?>">
+                                                            <input type="text" name="penyakitcf" class="form-control" required="required" id="email" value="<?= $data['penyakitcf']; ?>">
                                                         </div>
 
+                                                        <div class="form-group">
+                                                            <label for="keterangan">Keterangan</label>
+                                                            <textarea class="form-control" name="keterangancf" id="keterangan" required="required" placeholder="Keterangan"><?= $data['keterangancf']; ?></textarea>
+                                                        </div>
 
                                                         <div class="form-group">
-                                                            <label for="email">Solusi</label>
-                                                            <textarea class="form-control" name="solusicf" id="solusi" aria-describedby="catatan_pembelian" placeholder="Solusi" required="required"><?= $data['solusicf']  ?></textarea>
+                                                            <label for="solusi">Solusi</label>
+                                                            <textarea class="form-control" name="solusicf" id="solusi" aria-describedby="catatan_pembelian" placeholder="Solusi" required="required"><?= $data['solusicf']; ?></textarea>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label for="gambar">Gambar</label>
+                                                            <input type="file" name="gambarcf" class="form-control-file" id="gambar" placeholder="Gambar">
+                                                            <?php if ($data['gambarcf']) : ?>
+                                                                <br>
+                                                                <img src="<?php echo base_url('assets/uploads/' . $data['gambarcf']); ?>" alt="Gambar" width="150">
+                                                            <?php endif; ?>
                                                         </div>
 
                                                     </div>
@@ -90,6 +109,7 @@
                                             </div>
                                         </div>
                                     </div>
+
 
 
                                     <!-- Modal -->
@@ -141,21 +161,27 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                 <h4 class="modal-title">Tambah Penyakit CF</h4>
             </div>
-
-            <form action="<?php echo base_url() ?>admin/add_penyakitcf" method="POST">
+            <form action="<?php echo base_url() ?>admin/add_penyakitcf" method="POST" enctype="multipart/form-data">
                 <div class="modal-body">
-
                     <div class="form-group">
                         <label for="email">Penyakit</label>
-                        <input type="text" name="penyakitcf" class="form-control" id="email" placeholder="Nama Penyakit">
+                        <input type="text" name="penyakitcf" class="form-control" id="email" placeholder="Nama Penyakit" required="required">
                     </div>
 
                     <div class="form-group">
-                        <label for="email">Solusi</label>
+                        <label for="keterangan">Keterangan</label>
+                        <textarea class="form-control" name="keterangancf" id="keterangan" required="required" placeholder="Keterangan"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="solusi">Solusi</label>
                         <textarea class="form-control" name="solusicf" id="solusi" aria-describedby="catatan_pembelian" placeholder="Solusi" required="required"></textarea>
                     </div>
 
-
+                    <div class="form-group">
+                        <label for="gambar">Gambar</label>
+                        <input type="file" name="gambarcf" class="form-control-file" id="gambar" required="required" placeholder="Gambar">
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

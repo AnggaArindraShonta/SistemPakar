@@ -48,8 +48,6 @@ class member extends CI_Controller
     {
         $gejalacf = $this->input->post('kondisi');
         $nilai_min = null;
-        $x = null;
-        $y = null;
         $bobot_user = array();
         $cfEe = array();
         $cfHe = array();
@@ -67,10 +65,8 @@ class member extends CI_Controller
                 $cfEe[$kodeGejala]['bobot_pakar'] = $bobot_pakar;
                 $cfEe[$kodeGejala]['cfbobot'] = $cfBobot;
                 // CF Kombinasi Evidence Antecedent
-                if ($nilai_min === null) {
+                if ($nilai_min === null || $cfBobot < $nilai_min) {
                     $nilai_min = $cfBobot;
-                } else {
-                    $nilai_min = min($nilai_min, $cfBobot);
                 }
                 $cfAturan = $this->model_admin->get_cfaturan($kodeGejala);
                 $cfHipotesis = floatval($nilai_min) * floatval($cfAturan);
@@ -82,9 +78,11 @@ class member extends CI_Controller
                 //Hipotesis Penyakit
                 $hipotesisPenyakit = $this->model_admin->get_hipotesis_penyakit($kodeGejala);
                 $kodePenyakit = $this->model_admin->get_penyakitcfaturan($kodeGejala);
-                $Hipotesis[$kodeGejala]['kode_penyakitcf'] = $kodePenyakit;
-                $Hipotesis[$kodeGejala]['penyakitcf'] = $hipotesisPenyakit;
-                $Hipotesis[$kodeGejala]['cf_persen'] = $cfHipotesis;
+                if (!isset($Hipotesis[$kodePenyakit])) {
+                    $Hipotesis[$kodePenyakit]['kode_penyakitcf'] = $kodePenyakit;
+                    $Hipotesis[$kodePenyakit]['penyakitcf'] = $hipotesisPenyakit;
+                    $Hipotesis[$kodePenyakit]['cf_persen'] = $cfHipotesis;
+                }
             }
         }
         $data['cfEe'] = $cfEe;
@@ -112,33 +110,16 @@ class member extends CI_Controller
     {
 
         $kode_penyakitcf = $this->uri->segment('3');
-        $data['$kode_penyakitcf'] = $kode_penyakitcf;
-
-        $penyakitcf = $this->model_admin->get_penyakitcf($kode_penyakitcf)->row();
-        $data['penyakitcf'] = $penyakitcf->penyakitcf;
-        $data['solusicf'] = $penyakitcf->solusicf;
-
         $data['gejalacf'] = $this->model_admin->get_gejalacf_penyakitcf($kode_penyakitcf)->result_array();
+        $penyakitcf = $this->model_admin->get_penyakitcf($kode_penyakitcf)->row();
+        $data['$kode_penyakitcf'] = $kode_penyakitcf;
+        $data['penyakitcf'] = $penyakitcf->penyakitcf;
+        $data['keterangancf'] = $penyakitcf->keterangancf;
+        $data['solusicf'] = $penyakitcf->solusicf;
+        $data['gambarcf'] = $penyakitcf->gambarcf;
 
         $this->load->view('premium/header_member');
         $this->load->view('premium/detail_penyakitcf', $data);
-        $this->load->view('premium/footer_member');
-    }
-
-    public function detail_hasilpenyakitcf()
-    {
-
-        $kode_penyakitcf = $this->uri->segment('3');
-        $data['$kode_penyakitcf'] = $kode_penyakitcf;
-
-        $penyakitcf = $this->model_admin->get_penyakitcf($kode_penyakitcf)->row();
-        $data['penyakitcf'] = $penyakitcf->penyakitcf;
-        $data['solusicf'] = $penyakitcf->solusicf;
-
-        $data['gejalacf'] = $this->model_admin->get_gejalacf_penyakitcf($kode_penyakitcf)->result_array();
-
-        $this->load->view('premium/header_member');
-        $this->load->view('premium/detail_hasilpenyakitcf', $data);
         $this->load->view('premium/footer_member');
     }
 }

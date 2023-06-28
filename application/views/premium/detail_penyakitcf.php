@@ -42,9 +42,23 @@
             </table>
             <hr>
             <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Gambar Penyakit</b></label>
+              <div class="col-sm-20">
+                <?php if ($gambarcf) { ?>
+                  <img src="<?php echo base_url('assets/uploads/' . $gambarcf); ?>" alt="Gambar" width="150">
+                <?php } ?>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Keterangan Penyakit</b></label>
+              <div class="col-sm-20">
+                <?php echo $keterangancf; ?>
+              </div>
+            </div>
+            <div class="form-group row">
               <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Solusi Penyakit</b></label>
-              <div class="col-sm-10">
-                <?php echo $solusicf; ?>
+              <div class="col-sm-20">
+                <?php echo nl2br($solusicf); ?>
               </div>
             </div>
           </div>

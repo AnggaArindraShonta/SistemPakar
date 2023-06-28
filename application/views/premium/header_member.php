@@ -108,7 +108,6 @@
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/data_penyakitcf') ?>">Data Penyakit Padi</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Kesempatan">Kesempatan</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Cara Kerja">Cara Kerja</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('member/') ?>#Kontak">Kontak </a></li>
             </ul>
           </div>
           <div class="btn-container">
@@ -134,8 +133,6 @@
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('user/') ?>#Kesempatan">Kesempatan</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('user/') ?>#Cara Kerja">Cara Kerja</a></li>
               <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('user/') ?>#Langganan">Langganan</a></li>
-              <li class="nav-item px-2"><a class="nav-link fw-medium" href="<?php echo base_url('user/') ?>#Kontak">Kontak </a></li>
-            </ul>
           </div>
           <div class="btn-container">
             <a class="btn btn-m btn-warning" href="<?php echo base_url('member/register'); ?>" role="button">Register</a>

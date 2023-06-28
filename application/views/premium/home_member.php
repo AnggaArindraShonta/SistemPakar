@@ -11,7 +11,7 @@
     <div class="row align-items-center min-vh-75 min-vh-lg-100">
       <div class="col-md-7 col-lg-6 col-xxl-5 py-6 text-sm-start text-center">
         <h1 class="mt-6 mb-sm-4 fw-semi-bold lh-sm fs-4 fs-lg-5 fs-xl-5">Selamat Datang,<br class="d-block d-lg-block" />Sistem Pakar Penyakit Padi</h1>
-        <p class="mb-4 fs-1">Sistem pakar ini dibuat dengan menggunakan metode forward chaining, bertujuan untuk membantu petani dalam menentukan penyakit pada tanaman padi.</p>
+        <p class="mb-4 fs-1">Sistem pakar ini dibuat defngan menggunakan metode forward chaining, bertujuan untuk membantu petani dalam menentukan penyakit pada tanaman padi.</p>
       </div>
     </div>
   </div>

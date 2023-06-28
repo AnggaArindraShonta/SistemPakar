@@ -211,6 +211,7 @@ class admin extends CI_Controller
 				Edit Gejala Failed!
 			</div>
 			');
+			redirect('admin/gejala');
 		}
 	}
 
@@ -234,6 +235,7 @@ class admin extends CI_Controller
 				Edit Gejala CF Failed!
 			</div>
 			');
+			redirect('admin/gejalacf');
 		}
 	}
 
@@ -369,6 +371,7 @@ class admin extends CI_Controller
 				Edit Penyakit Failed!
 			</div>
 			');
+			redirect('admin/penyakit');
 		}
 	}
 
@@ -390,6 +393,7 @@ class admin extends CI_Controller
 				Edit Penyakit Failed!
 			</div>
 			');
+			redirect('admin/penyakitcf');
 		}
 	}
 

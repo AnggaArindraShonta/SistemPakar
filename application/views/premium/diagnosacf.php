@@ -81,7 +81,7 @@
                                         <td><?= $data['penyakitcf'][0] ?></td>
                                         <td><?= $data['cf_persen'] ?>%</td>
                                         <td>
-                                            <a href="<?= base_url() ?>member/detail_hasilpenyakitcf/<?= $data['kode_penyakitcf'] ?>" class="fa-hover col-xl-3 col-lg-4 col-md-6 col-12"><i class="fa fa-search" aria-hidden="true"></i></a>
+                                            <a href="<?= base_url() ?>member/detail_penyakitcf/<?= $data['kode_penyakitcf'] ?>" class="fa-hover col-xl-3 col-lg-4 col-md-6 col-12"><i class="fa fa-search" aria-hidden="true"></i></a>
                                         </td>
                                     </tr>
                                 <?php $nomor++;

@@ -260,12 +260,11 @@ class model_admin extends CI_Model
 
 	function add_penyakitcf()
 	{
-		$this->db->order_by('kode_penyakitcf', 'Desc');
+		$this->db->order_by('kode_penyakitcf', 'DESC');
 		$db = $this->db->get('penyakitcf')->row();
 
 		$lastNumber = (int) substr($db->kode_penyakitcf, 1);
 		$newNumber = $lastNumber + 1;
-
 		$char = "P";
 		$newID = $char . $newNumber;
 
@@ -282,19 +281,33 @@ class model_admin extends CI_Model
 
 		$data = array(
 			'kode_penyakitcf' => $newID,
-			'penyakitcf' =>  $this->input->post('penyakitcf'),
-			'solusicf' =>  $this->input->post('solusicf')
+			'penyakitcf' => $this->input->post('penyakitcf'),
+			'keterangancf' => $this->input->post('keterangancf'),
+			'solusicf' => $this->input->post('solusicf')
 		);
 
+		if (!empty($_FILES['gambarcf']['name'])) {
+			$config['upload_path'] = 'assets/uploads/';
+			$config['allowed_types'] = 'jpg|jpeg|png|gif';
+			$this->load->library('upload', $config);
+			if ($this->upload->do_upload('gambarcf')) {
+				$uploadData = $this->upload->data();
+				$data['gambarcf'] = $uploadData['file_name'];
+			} else {
+				$error = $this->upload->display_errors();
+				$return = array('result' => 'failed', 'error' => $error);
+				return $return;
+			}
+		}
 		$this->db->insert('penyakitcf', $data);
-
 		if ($this->db->affected_rows() > 0) {
-			$return =  array('result' => 'success');
+			$return = array('result' => 'success');
 		} else {
-			$return =  array('result' => 'failed');
+			$return = array('result' => 'failed');
 		}
 		return $return;
 	}
+
 
 	function delete_penyakit()
 	{
@@ -343,18 +356,40 @@ class model_admin extends CI_Model
 
 	function edit_penyakitcf()
 	{
-
 		$data = array(
-			'penyakitcf' =>  $this->input->post('penyakitcf'),
-			'solusicf' =>  $this->input->post('solusicf')
+			'penyakitcf' => $this->input->post('penyakitcf'),
+			'solusicf' => $this->input->post('solusicf')
 		);
+
+		if (!empty($_FILES['gambarcf']['name'])) {
+			$config['upload_path'] = 'assets/uploads/';
+			$config['allowed_types'] = 'jpg|jpeg|png|gif';
+			$this->load->library('upload', $config);
+
+			if ($this->upload->do_upload('gambarcf')) {
+				$oldData = $this->db->get_where('penyakitcf', array('kode_penyakitcf' => $this->input->post('kode_penyakitcf')))->row();
+				if ($oldData->gambarcf) {
+					unlink('assets/uploads/' . $oldData->gambarcf);
+				}
+				$uploadData = $this->upload->data();
+				$data['gambarcf'] = $uploadData['file_name'];
+			} else {
+				$error = $this->upload->display_errors();
+				$return = array('result' => 'failed', 'error' => $error);
+				return $return;
+			}
+		} else {
+			$oldData = $this->db->get_where('penyakitcf', array('kode_penyakitcf' => $this->input->post('kode_penyakitcf')))->row();
+			$data['gambarcf'] = $oldData->gambarcf;
+		}
+
 		$this->db->where('kode_penyakitcf', $this->input->post('kode_penyakitcf'));
 		$this->db->update('penyakitcf', $data);
 
 		if ($this->db->affected_rows() > 0) {
-			$return =  array('result' => 'success');
+			$return = array('result' => 'success');
 		} else {
-			$return =  array('result' => 'failed');
+			$return = array('result' => 'failed');
 		}
 		return $return;
 	}
