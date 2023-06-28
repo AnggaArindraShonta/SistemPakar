@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Waktu pembuatan: 24 Jun 2023 pada 16.05
+-- Waktu pembuatan: 28 Jun 2023 pada 17.00
 -- Versi server: 10.4.20-MariaDB
 -- Versi PHP: 7.3.29
 
@@ -219,30 +219,6 @@ INSERT INTO `gejalacf` (`kode_gejalacf`, `gejalacf`, `bobot_pakar`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kondisi`
---
-
-CREATE TABLE `kondisi` (
-  `id` int(11) NOT NULL,
-  `kondisi_user` varchar(20) NOT NULL,
-  `bobot_user` decimal(3,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `kondisi`
---
-
-INSERT INTO `kondisi` (`id`, `kondisi_user`, `bobot_user`) VALUES
-(1, 'Tidak', '0.00'),
-(2, 'Tidak Tahu', '0.20'),
-(3, 'Sedikit Yakin', '0.40'),
-(4, 'Cukup Yakin', '0.60'),
-(5, 'Yakin', '0.80'),
-(6, 'Sangat Yakin', '1.00');
-
--- --------------------------------------------------------
-
---
 -- Struktur dari tabel `member`
 --
 
@@ -296,19 +272,21 @@ INSERT INTO `penyakit` (`kode_penyakit`, `penyakit`, `solusi`) VALUES
 CREATE TABLE `penyakitcf` (
   `kode_penyakitcf` varchar(5) NOT NULL,
   `penyakitcf` varchar(50) DEFAULT NULL,
-  `solusicf` text DEFAULT NULL
+  `keterangancf` text NOT NULL,
+  `solusicf` text DEFAULT NULL,
+  `gambarcf` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data untuk tabel `penyakitcf`
 --
 
-INSERT INTO `penyakitcf` (`kode_penyakitcf`, `penyakitcf`, `solusicf`) VALUES
-('P1', 'Fusarium', '1. Merenggangkan jarak tanaman\n2. Mencelupkan bibit ke dalam air campuran POCNASA\n3. Sebarkan GLIO di lahan'),
-('P2', 'Kresek Hawar Daun', '1. Pengolahan tanah secara optimal\n2. Penanaman varietas unggul dari benih yang sehat\n3. Pengaturan jarak tanam\n4. Pemupukan berimbang dengan pemberian unsur N, P, K, dan unsur mikro\n5. Pengaturan sistem pengairan sesuai fase pertumbuhan tanaman\n6. Penyemprotan bakterisida sesuai anjuran yang efektif'),
-('P3', 'Batang busuk', '1. Penyemprotan dengan pestisida jenis fungisida yang berbahan aktif difenokonazol\n2. Pengelolaan air secara intermiten, jangan terlalu digenang\n3. Pemupukan yang berimbang, dengan pemberian unsur K(Kalium), dan N (Nitrogen) sesuai anjuran'),
-('P4', 'Pelepah daun', '1. Pengaturan jarak tanaman tidak terlalu rapat\n2. Pemupukan berimbang\n3. Pengairan berselang\n4. Sanitasi sisa tanaman dan gulma di sekitar sawah'),
-('P5', 'Kerdil', '1. Menggunakan bibit unggul\n2. Membersihkan gulma disekitar tanaman padi\n3. Penyemprotan pestisida dan insektisida\n4. Bercocok tanam dengan tepat');
+INSERT INTO `penyakitcf` (`kode_penyakitcf`, `penyakitcf`, `keterangancf`, `solusicf`, `gambarcf`) VALUES
+('P1', 'Fusarium', 'Fusarium adalah penyakit yang disebabkan oleh jamur Fusarium spp. Penyakit ini dapat mempengaruhi berbagai bagian tanaman padi, termasuk akar, batang, dan bulir. Gejala yang umum terjadi adalah pembusukan akar, penurunan pertumbuhan tanaman, daun kuning, dan kehilangan hasil panen.', '1. Merenggangkan jarak tanaman\r\n2. Mencelupkan bibit ke dalam air campuran POCNASA\r\n3. Sebarkan GLIO di lahan', 'penyakit-layu-fusarium.jpg'),
+('P2', 'Kresek Hawar Daun', 'Kresek hawar daun adalah penyakit yang disebabkan oleh bakteri Xanthomonas oryzae pv. oryzae. Gejala utama penyakit ini adalah adanya bercak-bercak kuning yang berbentuk V pada daun padi. Infeksi yang parah dapat menyebabkan kekuningan dan kemudian keringnya daun.', '1. Pengolahan tanah secara optimal\r\n2. Penanaman varietas unggul dari benih yang sehat\r\n3. Pengaturan jarak tanam\r\n4. Pemupukan berimbang dengan pemberian unsur N, P, K, dan unsur mikro\r\n5. Pengaturan sistem pengairan sesuai fase pertumbuhan tanaman\r\n6. Penyemprotan bakterisida sesuai anjuran yang efektif', 'cara-mengatasi-penyakit-kresek-pada-tanaman-padi.jpg'),
+('P3', 'Batang busuk', 'Batang busuk adalah penyakit yang disebabkan oleh jamur Pyricularia oryzae. Infeksi jamur ini menyebabkan kerusakan pada batang tanaman padi. Gejala yang muncul meliputi bercak-bercak cokelat atau hitam pada batang, penurunan pertumbuhan, dan kerontokan malai.', '1. Penyemprotan dengan pestisida jenis fungisida yang berbahan aktif difenokonazol\r\n2. Pengelolaan air secara intermiten, jangan terlalu digenang\r\n3. Pemupukan yang berimbang, dengan pemberian unsur K(Kalium), dan N (Nitrogen) sesuai anjuran', 'batangbusuk.jpeg'),
+('P4', 'Pelepah daun', 'Pelepah daun adalah penyakit yang disebabkan oleh jamur Cochliobolus miyabeanus. Penyakit ini mempengaruhi daun tanaman padi. Gejala awalnya adalah munculnya bercak-bercak cokelat pada pelepah daun, yang kemudian berkembang menjadi bercak berwarna krem atau putih dengan pinggiran merah kecokelatan.\r\n\r\n', '1. Pengaturan jarak tanaman tidak terlalu rapat\r\n2. Pemupukan berimbang\r\n3. Pengairan berselang\r\n4. Sanitasi sisa tanaman dan gulma di sekitar sawah', 'hawarpelepah.jpeg'),
+('P5', 'Kerdil', 'Kerdil pada padi merupakan kompleks penyakit yang disebabkan oleh virus-virus tertentu, seperti Rice tungro virus (RTV) dan Rice ragged stunt virus (RRSV). Gejala yang terlihat termasuk pertumbuhan tanaman yang terhambat, daun menguning, pembentukan malai yang tidak sempurna, dan penurunan hasil panen.', '1. Menggunakan bibit unggul\r\n2. Membersihkan gulma disekitar tanaman padi\r\n3. Penyemprotan pestisida dan insektisida\r\n4. Bercocok tanam dengan tepat', 'kerdil.png');
 
 --
 -- Indexes for dumped tables
@@ -349,12 +327,6 @@ ALTER TABLE `gejalacf`
   ADD PRIMARY KEY (`kode_gejalacf`);
 
 --
--- Indeks untuk tabel `kondisi`
---
-ALTER TABLE `kondisi`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `member`
 --
 ALTER TABLE `member`
@@ -386,19 +358,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `aturan`
 --
 ALTER TABLE `aturan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT untuk tabel `basispengetahuan`
 --
 ALTER TABLE `basispengetahuan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
-
---
--- AUTO_INCREMENT untuk tabel `kondisi`
---
-ALTER TABLE `kondisi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT untuk tabel `member`
